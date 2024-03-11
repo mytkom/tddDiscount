@@ -11,7 +11,7 @@ public class DiscountCalculatorTests
     [InlineData(100.0, "DISCOUNT20OFF", 80.0)]
     [InlineData(100.0, "abc", 50.0)]
     [InlineData(100.0, "cfg", 70.0)]
-    public void AppliesCorrectDiscountOnPassedPrice(decimal basePrice, string code, decimal expectedPrice)
+    public void CalculateDiscount_AppliesCorrectDiscountOnPrice(decimal basePrice, string code, decimal expectedPrice)
     {
       // Arrange
       var calculator = new DiscountCalculator();
@@ -27,7 +27,7 @@ public class DiscountCalculatorTests
     [InlineData(-10.0, "SAVE10NOW", "Negatives not allowed")]
     [InlineData(-1.0, "SAVE10NOW", "Negatives not allowed")]
     [InlineData(10.0, "not existing code", "Invalid discount code")]
-    public void ThrowsExceptionOnInvalidArgument(decimal basePrice, string code, string expectedErrorMessage)
+    public void CalculateDiscount_ThrowsExceptionOnInvalidArgument(decimal basePrice, string code, string expectedErrorMessage)
     {
       // Arrange
       var calculator = new DiscountCalculator();
@@ -40,7 +40,7 @@ public class DiscountCalculatorTests
     [Theory]
     [InlineData("abc", 1)]
     [InlineData("cfg", 4)]
-    public void HandlesSicountCodesWithUsageThresholdProperly(string code, int usageThreshold)
+    public void CalculateDiscount_HandlesDiscountCodesWithUsageThreshold(string code, int usageThreshold)
     {
       // Arrange
       var calculator = new DiscountCalculator();
