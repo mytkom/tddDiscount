@@ -7,6 +7,11 @@ public class DiscountCalculator {
   };
 
   public decimal CalculateDiscount(decimal price, string discountCode) {
+    if(price < 0)
+    {
+      throw new ArgumentException("Negatives not allowed");
+    }
+
     if(discountCode.Length == 0)
     {
       return price;
@@ -14,7 +19,7 @@ public class DiscountCalculator {
 
     if(!activeDiscountCodes.ContainsKey(discountCode))
     {
-      return price;
+      throw new ArgumentException("Invalid discount code");
     }
 
     return price * activeDiscountCodes[discountCode]; 
