@@ -5,6 +5,7 @@ public class DiscountCalculator {
     { "SAVE10NOW", (0.9M, null) },
     { "DISCOUNT20OFF", (0.8M, null) },
     { "abc", (0.5M, 1) },
+    { "cfg", (0.7M, 4) },
   };
 
   public decimal CalculateDiscount(decimal price, string discountCode) {

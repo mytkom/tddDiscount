@@ -10,6 +10,7 @@ public class DiscountCalculatorTests
     [InlineData(10.0, "DISCOUNT20OFF", 8.0)]
     [InlineData(100.0, "DISCOUNT20OFF", 80.0)]
     [InlineData(100.0, "abc", 50.0)]
+    [InlineData(100.0, "cfg", 70.0)]
     public void AppliesCorrectDiscountOnPassedPrice(decimal basePrice, string code, decimal expectedPrice)
     {
       // Arrange
@@ -35,14 +36,14 @@ public class DiscountCalculatorTests
       Assert.Equal(expectedErrorMessage, ex.Message);
     }
 
-    [Fact]
-    public void HandlesSicountCodesWithUsageThresholdProperly()
+    [Theory]
+    [InlineData("abc", 1)]
+    [InlineData("cfg", 4)]
+    public void HandlesSicountCodesWithUsageThresholdProperly(string code, int usageThreshold)
     {
       // Arrange
       var calculator = new DiscountCalculator();
       decimal basePrice = 10.0M;
-      string code = "abc";
-      int usageThreshold = 1;
 
       // Act
       for(int i = 0; i < usageThreshold; i++)
