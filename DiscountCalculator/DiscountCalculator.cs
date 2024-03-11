@@ -1,7 +1,22 @@
 namespace DiscountCalculator;
 
 public class DiscountCalculator {
+  Dictionary<string, decimal> activeDiscountCodes = new Dictionary<string, decimal>() {
+    { "SAVE10NOW", 0.9M },
+    { "DISCOUNT20OFF", 0.8M },
+  };
+
   public decimal CalculateDiscount(decimal price, string discountCode) {
-    return 0.0M;
+    if(discountCode.Length == 0)
+    {
+      return price;
+    }
+
+    if(!activeDiscountCodes.ContainsKey(discountCode))
+    {
+      return price;
+    }
+
+    return price * activeDiscountCodes[discountCode]; 
   }
 };
