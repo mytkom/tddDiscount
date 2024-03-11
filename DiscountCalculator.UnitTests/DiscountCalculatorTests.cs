@@ -20,4 +20,17 @@ public class DiscountCalculatorTests
       // Assert
       Assert.Equal(expectedPrice, resultPrice);
     }
+
+    [Theory]
+    [InlineData(-10.0, "SAVE10NOW", "Negatives not allowed")]
+    [InlineData(10.0, "not existing code", "Invalid discount code")]
+    public void ThrowsExceptionOnInvalidArgument(decimal basePrice, string code, string expectedErrorMessage)
+    {
+      // Arrange
+      var calculator = new DiscountCalculator();
+
+      // Act & Assert
+      ArgumentException ex = Assert.Throws<ArgumentException>(() => calculator.CalculateDiscount(basePrice, code));
+      Assert.Equal(expectedErrorMessage, ex.Message);
+    }
 }
