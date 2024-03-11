@@ -25,6 +25,7 @@ public class DiscountCalculatorTests
 
     [Theory]
     [InlineData(-10.0, "SAVE10NOW", "Negatives not allowed")]
+    [InlineData(-1.0, "SAVE10NOW", "Negatives not allowed")]
     [InlineData(10.0, "not existing code", "Invalid discount code")]
     public void ThrowsExceptionOnInvalidArgument(decimal basePrice, string code, string expectedErrorMessage)
     {
