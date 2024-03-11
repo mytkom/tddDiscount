@@ -1,9 +1,10 @@
 namespace DiscountCalculator;
 
 public class DiscountCalculator {
-  Dictionary<string, decimal> activeDiscountCodes = new Dictionary<string, decimal>() {
-    { "SAVE10NOW", 0.9M },
-    { "DISCOUNT20OFF", 0.8M },
+  private Dictionary<string, (decimal multiplier, int? count)> _activeDiscountCodes = new Dictionary<string, (decimal, int?)>() {
+    { "SAVE10NOW", (0.9M, null) },
+    { "DISCOUNT20OFF", (0.8M, null) },
+    { "abc", (0.5M, 1) },
   };
 
   public decimal CalculateDiscount(decimal price, string discountCode) {
@@ -17,11 +18,18 @@ public class DiscountCalculator {
       return price;
     }
 
-    if(!activeDiscountCodes.ContainsKey(discountCode))
+    if(!_activeDiscountCodes.ContainsKey(discountCode) || _activeDiscountCodes[discountCode].count == 0)
     {
       throw new ArgumentException("Invalid discount code");
     }
 
-    return price * activeDiscountCodes[discountCode]; 
+    var codePair = _activeDiscountCodes[discountCode];
+
+    if(codePair.count != null)
+    {
+      _activeDiscountCodes[discountCode] = new (codePair.multiplier, codePair.count - 1);
+    }
+
+    return price * _activeDiscountCodes[discountCode].multiplier; 
   }
 };

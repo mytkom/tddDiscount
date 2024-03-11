@@ -9,6 +9,7 @@ public class DiscountCalculatorTests
     [InlineData(100.0, "SAVE10NOW", 90.0)]
     [InlineData(10.0, "DISCOUNT20OFF", 8.0)]
     [InlineData(100.0, "DISCOUNT20OFF", 80.0)]
+    [InlineData(100.0, "abc", 50.0)]
     public void AppliesCorrectDiscountOnPassedPrice(decimal basePrice, string code, decimal expectedPrice)
     {
       // Arrange
@@ -32,5 +33,23 @@ public class DiscountCalculatorTests
       // Act & Assert
       ArgumentException ex = Assert.Throws<ArgumentException>(() => calculator.CalculateDiscount(basePrice, code));
       Assert.Equal(expectedErrorMessage, ex.Message);
+    }
+
+    [Fact]
+    public void HandlesSicountCodesWithUsageThresholdProperly()
+    {
+      // Arrange
+      var calculator = new DiscountCalculator();
+      decimal basePrice = 10.0M;
+      string code = "abc";
+      int usageThreshold = 1;
+
+      // Act
+      for(int i = 0; i < usageThreshold; i++)
+        calculator.CalculateDiscount(basePrice, code);
+
+      // Assert
+      ArgumentException ex = Assert.Throws<ArgumentException>(() => calculator.CalculateDiscount(basePrice, code));
+      Assert.Equal("Invalid discount code", ex.Message);
     }
 }
