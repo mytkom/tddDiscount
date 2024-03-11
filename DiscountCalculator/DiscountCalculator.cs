@@ -19,8 +19,13 @@ public class DiscountCalculator {
       return price;
     }
 
-    if(!_activeDiscountCodes.ContainsKey(discountCode) || _activeDiscountCodes[discountCode].count == 0)
+    if(!_activeDiscountCodes.ContainsKey(discountCode))
     {
+      throw new ArgumentException("Invalid discount code");
+    }
+    else if(_activeDiscountCodes[discountCode].count == 0)
+    {
+      _activeDiscountCodes.Remove(discountCode);
       throw new ArgumentException("Invalid discount code");
     }
 
